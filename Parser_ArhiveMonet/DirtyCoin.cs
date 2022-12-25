@@ -2,6 +2,7 @@
 {
     public class DirtyCoin
     {
+        public string? Name { get; set; }
         public string? Bitkin { get; set; }
         public string? Conros { get; set; }
         public string? Denomination { get; set; }

@@ -145,6 +145,8 @@ namespace Parser_ArhiveMonet
 
                     DirtyCoin dirtyCoin = new();
 
+                    dirtyCoin.Name = doc.DocumentNode.SelectNodes($"//*[contains(@id, 'aboutus')]/div/div[1]/h3")?.FirstOrDefault()?.InnerHtml;
+
                     for (int index = 1; index < 10; index++)
                     {
                         switch (doc.DocumentNode.SelectNodes($"//ul[contains(@class, 'catnums')]/li[{index}]/strong")?.FirstOrDefault()?.InnerHtml)
@@ -257,6 +259,7 @@ namespace Parser_ArhiveMonet
                 foreach (var coin in coins)
                 {
                     var param = new DynamicParameters();
+                    param.Add("Name", coin.Name);
                     param.Add("Bitkin", coin.Bitkin);
                     param.Add("Conros", coin.Conros);
                     param.Add("Denomination", coin.Denomination);
@@ -273,9 +276,9 @@ namespace Parser_ArhiveMonet
                     param.Add("ImgBackUrl", coin.ImgBackUrl);
 
                     var querry = "INSERT INTO DirtyCoin " +
-                        "([Bitkin], [Conros], [Denomination], [Quality], [Material], [Weight], [Diameter], [Circulation], [Gurt], [Year], [Obverse], [Reverse], [ImgFrontUrl], [ImgBackUrl]) " +
+                        "([Name], [Bitkin], [Conros], [Denomination], [Quality], [Material], [Weight], [Diameter], [Circulation], [Gurt], [Year], [Obverse], [Reverse], [ImgFrontUrl], [ImgBackUrl]) " +
                         "VALUES " +
-                        "(@Bitkin, @Conros, @Denomination, @Quality, @Material, @Weight, @Diameter, @Circulation, @Gurt, @Year, @Obverse, @Reverse, @ImgFrontUrl, @ImgBackUrl);";
+                        "(@Name, @Bitkin, @Conros, @Denomination, @Quality, @Material, @Weight, @Diameter, @Circulation, @Gurt, @Year, @Obverse, @Reverse, @ImgFrontUrl, @ImgBackUrl);";
                     await db.QueryAsync(querry, param);
                 }
             }
